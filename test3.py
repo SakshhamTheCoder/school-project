@@ -3,12 +3,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import colors
 from numpy import random
+import mysql.connector
 
 # Defining Colours for Printing Purposes
 red = (255,51,51)
 yellow = (255,255,102)
 green = (102,255,102)
 blue = (102,178,255)
+purple = (204, 153, 255)
+orange = (255,178,102)
+dark_blue = (102,102,255)
+pink = (255, 153, 204)
 
 # Functions for printing a coloured text
 def print_colored(color, text):
@@ -17,27 +22,32 @@ def input_colored(color, text):
     input1 = input(f"\033[38;2;{color[0]};{color[1]};{color[2]}m{text}\033[38;2;255;255;255m")
     return input1
 
+# conn = mysql.connector.connect(user="root", password="")
+# cursor = conn.cursor()
+
 # Reading csv file and removing missing values
 df = pd.read_csv("daata.csv")
 df = df.dropna()
 
 
-print_colored(red,'''
+print_colored(purple,'''
         ───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───
         ───█▒▒░░░░░░░░░▒▒█───
         ────█░░█░░░░░█░░█────          WELCOME TO SONG STAT GRAPH PROJECT
         ─▄▄──█░░░▀█▀░░░█──▄▄─
         █░░█─▀▄░░░░░░░▄▀─█░░█
-        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█       - Made by: Sakshham   &   Vasundhra
-        █░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█                   Bhagat         Sharma
+        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█       - Made by:  Sakshham   &   Vasundhra
+        █░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█                    Bhagat         Sharma
         █░░║║║╠─║─║─║║║║║╠─░░█
         █░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
 
 ''')
 
 def histogram():
-    reply5 = input(
-            "Which data would you like to view? \n (1) Danceability \n (2) Energy \n (3) Tempo \n (4)Time_Signature ")
+    print_colored(orange, "\n: SELECT DATA :")
+    print_colored(pink,
+            "Which data would you like to view? \n (1) Danceability \n (2) Energy \n (3) Tempo \n (4) Time_Signature ")
+    reply5 = input_colored(blue, "Select one - (1)/(2)/(3)/(4) : ")
     if reply5 == "1":
         df["Danceability"].plot(kind="hist", color="yellow")
         plt.show()
@@ -47,17 +57,21 @@ def histogram():
     elif reply5 == "3":
         df["Tempo"].plot(kind="hist", color="green")
         plt.show()
-    else:
+    elif reply5 == "4":
         df["Time_signature"].plot(kind="hist", color="purple")
         plt.show()
+    else:
+        print_colored(red, "Choose a valid option")
+        return
 
 def axis_select(type: str):
     random_color = str(random.choice(
         ["red", "green", "blue", "yellow", "purple", "pink", "black", "brown"]))
     random_marker = str(random.choice(["o", "d"]))
-    print("(1) Danceability \n (2) Energy \n (3) Tempo \n (4) Time_signature")
-    reply3 = input("Select X-axis - (1)/(2)/(3)/(4): ")
-    reply4 = input("Select Y-axis - (1)/(2)/(3)/(4): ")
+    print_colored(orange, "\n: SELECT AXES : ")
+    print_colored(yellow, " (1) Danceability \n (2) Energy \n (3) Tempo \n (4) Time_signature")
+    reply3 = input_colored(blue, "Select X-axis - (1)/(2)/(3)/(4): ")
+    reply4 = input_colored(blue, "Select Y-axis - (1)/(2)/(3)/(4): ")
     if reply3 == "1" and reply4 == "2":
         df.plot(kind=type, color=random_color,
                 marker=random_marker, x="Danceability", y="Energy")
@@ -107,16 +121,17 @@ def axis_select(type: str):
                 marker=random_marker, x="Time_signature", y="Tempo")
         plt.show()
     else:
-        print("Choose a valid option")
+        print_colored(red, "Choose a valid option")
         return
+    # print(f": SHOWING A GRAPH OF TYPE *{type}* WITH X-AXIS AS *{reply3}* AND Y-AXIS AS *{reply4}*")
 
 
-print_colored(blue, "What do you want to do ? \n  (1) View graph \n  (2) Edit graph \n  (3) Exit")
+print_colored(dark_blue, "What do you want to do ? \n  (1) View graph \n  (2) Edit graph \n  (3) Exit")
 reply = input_colored(blue, "Select one - (1)/(2)/(3) : ")
 if reply == "1":
-    print(": VIEW GRAPHS : ")
-    print("Which type of graph do you want to view? \n (1) Line Graph \n (2) Bar Graph \n (3) Histogram \n (4) Pie Chart \n (5) Scatter")
-    reply2 = input("Select one - (1)/(2)/(3)/(4)/(5): ")
+    print_colored(orange, "\n: VIEW GRAPHS : ")
+    print_colored(green, "Which type of graph do you want to view? \n (1) Line Graph \n (2) Bar Graph \n (3) Histogram \n (4) Pie Chart \n (5) Scatter")
+    reply2 = input_colored(blue, "Select one - (1)/(2)/(3)/(4)/(5): ")
     if reply2 == "1":
         axis_select("line")
     elif reply2 == "2":
@@ -127,9 +142,11 @@ if reply == "1":
         print("pie here")
     elif reply2 == "5":
         axis_select("scatter")
+    else:
+        print_colored(red, "Choose a valid option")
 elif reply == "2":
     print("edit here")
 elif reply == "3":
     exit()
 else:
-    print("Choose a valid option")
+    print_colored(red, "Choose a valid option")
