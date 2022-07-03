@@ -22,13 +22,14 @@ def input_colored(color, text):
     input1 = input(f"\033[38;2;{color[0]};{color[1]};{color[2]}m{text}\033[38;2;255;255;255m")
     return input1
 
-# conn = mysql.connector.connect(user="root", password="")
-# cursor = conn.cursor()
+conn = mysql.connector.connect(user="root", password="sqlpass@2021", database="project")
+cursor:mysql.connector.connection.CursorBase = conn.cursor()
+
+cursor.execute("SELECT * FROM stats")
 
 # Reading csv file and removing missing values
-df = pd.read_csv("daata.csv")
-df = df.dropna()
-
+df = pd.DataFrame(cursor.fetchall()).astype('float64')
+df.columns = cursor.column_names
 
 print_colored(purple,'''
         ───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───
@@ -125,8 +126,19 @@ def axis_select(type: str):
         return
     # print(f": SHOWING A GRAPH OF TYPE *{type}* WITH X-AXIS AS *{reply3}* AND Y-AXIS AS *{reply4}*")
 
+def delete(column):
+    rec = input_colored(blue, "Enter which value you wanna choose?: ")
+    cursor.execute(f"DELETE from stats WHERE {column} = {rec}")
+    conn.commit()
+    print_colored(green, "Deleted Record")
 
-print_colored(dark_blue, "What do you want to do ? \n  (1) View graph \n  (2) Edit graph \n  (3) Exit")
+def add(Danceability, Energy, Tempo, Time_signature):
+    cursor.execute(f"INSERT into stats VALUES({Danceability}, {Energy}, {Tempo}, {Time_signature})")
+    conn.commit()
+    print_colored(green, "Added a new record")
+
+
+print_colored(dark_blue, "What do you want to do ? \n  (1) View graph \n  (2) Edit graph \n  (3) View Data \n  (4) Exit")
 reply = input_colored(blue, "Select one - (1)/(2)/(3) : ")
 if reply == "1":
     print_colored(orange, "\n: VIEW GRAPHS : ")
@@ -145,8 +157,31 @@ if reply == "1":
     else:
         print_colored(red, "Choose a valid option")
 elif reply == "2":
-    print("edit here")
+    print_colored(orange, "What do you want to do?\n (1) Add \n (2) Delete")
+    action = input_colored(blue, "Select one - (1)/(2): ")
+    if action == '1':
+        danceability = float(input_colored(dark_blue, "Enter value for Danceability: "))
+        energy = float(input_colored(dark_blue, "Enter value for Energy: "))
+        tempo = float(input_colored(dark_blue, "Enter value for Tempo: "))
+        ts = int(input_colored(dark_blue, "Enter value for Time Signature: "))
+        add(danceability, energy, tempo, ts)
+    if action == '2':
+        print_colored(green, "With which column you want to delete a record?\n (1) Danceability \n (2) Energy \n (3) Tempo \n (4) Time_signature")
+        column = input_colored(blue, "Select one - (1)/(2)/(3)/(4)/(5): ")
+        if column == "1":
+            delete("Danceability")
+        elif column == "2":
+            delete("Energy")
+        elif column == "3":
+            delete("Tempo")
+        elif column == "1":
+            delete("Time_signature")
+        else:
+            print_colored(red, "Choose a valid option")
+
 elif reply == "3":
+    print_colored(green, df)
+elif reply == "4":
     exit()
 else:
     print_colored(red, "Choose a valid option")
