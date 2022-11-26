@@ -35,7 +35,7 @@ cursor = conn.cursor()
 
 cursor.execute("SELECT * FROM stats")
 
-# Reading csv file and removing missing values
+# Reading the database as a dataframe
 df = pd.DataFrame(cursor.fetchall()).astype(float)
 df.columns = cursor.column_names
 
@@ -259,6 +259,7 @@ while True:
     elif reply == "3":
         print_colored(green, df.to_string(index=False))
     elif reply == "4":
+        print_colored(purple, "Thanks for using ^^")
         exit()
     else:
         print_colored(red, "Choose a valid option")
