@@ -25,6 +25,7 @@ First, clone this repo in your machine by
 git clone https://github.com/SakshhamTheCoder/school-project.git
 ```
 
+___
 
 You need to make a MySQL Database having atleast these 4 columns
 
@@ -50,6 +51,8 @@ Now, change the **username**, **password**, and **database name** in the file to
 # line 33
 conn = mysql.connector.connect(user="your username", password="your password", database="your db name")
 ```
+
+___
 
 Finally, you can run the code on your machine by
 
