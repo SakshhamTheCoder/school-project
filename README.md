@@ -27,8 +27,9 @@ git clone https://github.com/SakshhamTheCoder/school-project.git
 
 ___
 
-You need to make a MySQL Database having atleast these 4 columns
+You need to make a MySQL Database having atleast these 5 columns
 
+```Sno```
 ```Danceability```
 ```Energy```
 ```Tempo```
