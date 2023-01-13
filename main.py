@@ -23,7 +23,7 @@ def print_colored(color, text):
 
 def input_colored(color, text):
     input1 = input(
-        f"\033[38;2;{color[0]};{color[1]};{color[2]}m{text}\033[38;2;255;255;255m",
+        f"\033[38;2;{color[0]};{color[1]};{color[2]}m{text}\033[38;2;255;255;255m"
     )
     print()
     return input1
@@ -103,7 +103,6 @@ def axis_select(type: str):
             x="Danceability",
             y="Energy",
         )
-        plt.show()
     elif reply3 == "1" and reply4 == "3":
         df.plot(
             kind=type,
@@ -111,7 +110,6 @@ def axis_select(type: str):
             x="Danceability",
             y="Tempo",
         )
-        plt.show()
     elif reply3 == "1" and reply4 == "4":
         df.plot(
             kind=type,
@@ -119,7 +117,6 @@ def axis_select(type: str):
             x="Danceability",
             y="Time_signature",
         )
-        plt.show()
     elif reply3 == "2" and reply4 == "1":
         df.plot(
             kind=type,
@@ -127,7 +124,6 @@ def axis_select(type: str):
             x="Energy",
             y="Danceability",
         )
-        plt.show()
     elif reply3 == "2" and reply4 == "3":
         df.plot(
             kind=type,
@@ -135,7 +131,6 @@ def axis_select(type: str):
             x="Energy",
             y="Tempo",
         )
-        plt.show()
     elif reply3 == "2" and reply4 == "4":
         df.plot(
             kind=type,
@@ -143,7 +138,6 @@ def axis_select(type: str):
             x="Energy",
             y="Time_signature",
         )
-        plt.show()
     elif reply3 == "3" and reply4 == "1":
         df.plot(
             kind=type,
@@ -151,7 +145,6 @@ def axis_select(type: str):
             x="Tempo",
             y="Danceability",
         )
-        plt.show()
     elif reply3 == "3" and reply4 == "2":
         df.plot(
             kind=type,
@@ -159,7 +152,6 @@ def axis_select(type: str):
             x="Tempo",
             y="Energy",
         )
-        plt.show()
     elif reply3 == "3" and reply4 == "4":
         df.plot(
             kind=type,
@@ -167,7 +159,6 @@ def axis_select(type: str):
             x="Tempo",
             y="Time_signature",
         )
-        plt.show()
     elif reply3 == "4" and reply4 == "1":
         df.plot(
             kind=type,
@@ -175,7 +166,6 @@ def axis_select(type: str):
             x="Time_signature",
             y="Danceability",
         )
-        plt.show()
     elif reply3 == "4" and reply4 == "2":
         df.plot(
             kind=type,
@@ -183,7 +173,6 @@ def axis_select(type: str):
             x="Time_signature",
             y="Energy",
         )
-        plt.show()
     elif reply3 == "4" and reply4 == "3":
         df.plot(
             kind=type,
@@ -191,16 +180,18 @@ def axis_select(type: str):
             x="Time_signature",
             y="Tempo",
         )
-        plt.show()
     else:
         print_colored(red, "Choose a valid option")
         return
     print(f": SHOWING A GRAPH OF TYPE *{type.upper()}*")
+    plt.show()
 
 
 # Define Function For Deleting The DATA
 def delete(rec):
     cursor.execute(f"DELETE from stats WHERE Sno = {rec}")
+    cursor.execute("ALTER TABLE stats DROP Sno")
+    cursor.execute("ALTER TABLE stats ADD Sno INT AUTO_INCREMENT PRIMARY KEY FIRST")
     conn.commit()
     print_colored(green, "Deleted Record")
 
@@ -208,7 +199,7 @@ def delete(rec):
 # Define Function For Adding The DATA
 def add(Danceability, Energy, Tempo, Time_signature):
     cursor.execute(
-        f"INSERT into stats VALUES({Danceability}, {Energy}, {Tempo}, {Time_signature})"
+        f"INSERT into stats(Danceability, Energy, Tempo, Time_signature) VALUES({Danceability}, {Energy}, {Tempo}, {Time_signature})"
     )
     conn.commit()
     print_colored(green, "Added a new record")
@@ -249,12 +240,14 @@ while True:
             tempo = float(input_colored(dark_blue, "Enter value for Tempo: "))
             ts = int(input_colored(dark_blue, "Enter value for Time Signature: "))
             add(danceability, energy, tempo, ts)
+            break
         if action == "2":
-            rec = input_colored(blue, "Enter which record you want to delete?: ")
-            if int(rec) <= len(df.index):
+            rec = int(input_colored(blue, "Enter which record you want to delete?: "))
+            if rec <= len(df.index):
                 delete(rec)
             else:
                 print_colored(red, "Choose a valid index")
+            break
 
     elif reply == "3":
         print_colored(green, df.to_string(index=False))
