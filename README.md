@@ -1,5 +1,5 @@
 
-# Song Stat Graph Project
+# Song Stat Management System
 
 ───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───  
 ───█▒▒░░░░░░░░░▒▒█───  
