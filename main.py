@@ -1,7 +1,6 @@
 # Importing Libraries
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib import colors
 from numpy import random
 import mysql.connector
 
@@ -30,7 +29,7 @@ def input_colored(color, text):
 
 
 # MYSQL Connection
-conn = mysql.connector.connect(user="root", password="sqlpass@2021", database="project")
+conn = mysql.connector.connect(user="root", password="password", database="project")
 cursor = conn.cursor()
 
 cursor.execute("SELECT * FROM stats")
@@ -45,11 +44,11 @@ print_colored(
     """
         ───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───
         ───█▒▒░░░░░░░░░▒▒█───
-        ────█░░█░░░░░█░░█────          WELCOME TO SONG STAT GRAPH PROJECT
+        ────█░░█░░░░░█░░█────          WELCOME TO SONG STAT MANAGEMENT SYSTEM
         ─▄▄──█░░░▀█▀░░░█──▄▄─
         █░░█─▀▄░░░░░░░▄▀─█░░█
-        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█       - Made by:  Sakshham   &   Vasundhra
-        █░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█                    Bhagat         Sharma
+        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█         - Made by:  Sakshham   &   Vasundhra
+        █░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█                      Bhagat         Sharma
         █░░║║║╠─║─║─║║║║║╠─░░█
         █░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
 
@@ -218,7 +217,7 @@ while True:
             green,
             "Which type of graph do you want to view? \n (1) Line Graph \n (2) Bar Graph \n (3) Histogram \n (4) Scatter",
         )
-        reply2 = input_colored(blue, "Select one - (1)/(2)/(3)/(4)/(5): ")
+        reply2 = input_colored(blue, "Select one - (1)/(2)/(3)/(4): ")
         if reply2 == "1":
             axis_select("line")
         elif reply2 == "2":
