@@ -66,7 +66,7 @@ python main.py
 ## Authors
 
 - [@SakshhamTheCoder](https://www.github.com/SakshhamTheCoder) (Sakshham Bhagat)
-- [@kitty788v](https://www.github.com/kitty788v) (Vasundhra Sharma)
+- [@sharmavasundhra18](https://www.github.com/sharmavasundhra18) (Vasundhra Sharma)
 
 
 *Thanks for Reading ^^*
